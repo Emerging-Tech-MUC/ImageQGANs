@@ -1,29 +1,18 @@
-# Copyright 2023 QUTAC, BASF Digital Solutions GmbH, BMW Group, 
-# Lufthansa Industry Solutions AS GmbH, Merck KGaA (Darmstadt, Germany), 
-# Munich Re, SAP SE.
-
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# This file is a modification of the open‑source 'qugen' project: https://github.com/QutacQuantum/qugen
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 Anonymous contributors
+# Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
 from functools import partial
+from typing import List
 
 import jax
 import jax.numpy as jnp
 import numpy as np
 import pandas as pd
 
-
 from qugen.main.data.integral_transform import emp_integral_trans
-from typing import List
+
 
 # Transformation classes
 
@@ -101,7 +90,6 @@ class PITNormalizer():
     def inverse_transform(self, data: np.ndarray) -> np.ndarray:
         data = data * (1 + self.epsilon)
         res = jax.vmap(self._reverse_emp_integral_trans_single)(data)
-        # res = [self._reverse_emp_integral_trans_single(row) for row in data]
         return res[:, 0, :]
 
 def load_data(data_set, n_train=None, n_test=None):

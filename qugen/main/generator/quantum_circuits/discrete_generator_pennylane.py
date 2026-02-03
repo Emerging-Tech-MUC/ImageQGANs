@@ -1,25 +1,15 @@
-# Copyright 2023 QUTAC, BASF Digital Solutions GmbH, BMW Group, 
-# Lufthansa Industry Solutions AS GmbH, Merck KGaA (Darmstadt, Germany), 
-# Munich Re, SAP SE.
-
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-import pennylane as qml
-import jax
-import jax.numpy as jnp
+# This file is a modification of the open‑source 'qugen' project: https://github.com/QutacQuantum/qugen
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 Anonymous contributors
+# Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
 from functools import partial
 from itertools import combinations
+
+import jax
+import jax.numpy as jnp
+import pennylane as qml
+
 
 # Since we're using a qnode with sampling, we cannot use autograd. Instead, use this (analogously to the old implementation)
 @partial(jax.jit, static_argnames=["discriminator"])

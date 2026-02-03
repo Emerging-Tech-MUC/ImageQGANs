@@ -1,0 +1,77 @@
+circuit_depth: !!python/tuple
+- 64
+- 2
+circuit_type: continuous
+data_set: mnist_0_1_2_3_4_5_6_7_8_9_32x32_N_60000
+decoding_scheme: FRQI_msb
+discriminator: digital
+discriminator_name: convolutional
+gan_method: WGAN_10
+gen_init_distr: normal
+gen_init_scale: 0.01
+gen_init_shift: 0.0
+generator_name: color_rot_skip_SO4_blocks_noise_angle_next_neighbor_mirror
+init_noise_distr: null
+init_noise_scale: null
+init_noise_shift: null
+measurement_scheme: comp_basis_probs
+model_name: continuous_mnist_0_1_2_3_4_5_6_7_8_9_32x32_N_60000_minmax_qgan_8921f0fc
+n_ancilla_qubits: 0
+n_channels: 1
+n_qubits: 11
+noise_distr: normal_multi_mode
+noise_scale: 0.1
+noise_shift: !!python/tuple
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
+- 21
+- 22
+- 23
+- 24
+- 25
+- 26
+- 27
+- 28
+- 29
+- 30
+- 31
+- 32
+- 33
+- 34
+- 35
+- 36
+- 37
+- 38
+- 39
+noise_tuning: 40
+reupload: 0
+shots: null
+training_data:
+  '0':
+    adam_b1: 0.5
+    adam_b2: 0.9
+    batch_size: 32
+    discriminator_training_steps: 10
+    initial_learning_rate_discriminator: 0.0001
+    initial_learning_rate_generator: 0.001
+    n_epochs: 1000000
+transformation: minmax

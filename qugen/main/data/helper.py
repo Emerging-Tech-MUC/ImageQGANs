@@ -1,23 +1,15 @@
-# Copyright 2023 QUTAC, BASF Digital Solutions GmbH, BMW Group, 
-# Lufthansa Industry Solutions AS GmbH, Merck KGaA (Darmstadt, Germany), 
-# Munich Re, SAP SE.
+# This file is a modification of the open‑source 'qugen' project: https://github.com/QutacQuantum/qugen
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 Anonymous contributors
+# Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+from typing import Union, Sequence
 
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-import numpy as np
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
-from typing import Union, Sequence
+import numpy as np
+from sklearn.neighbors import KernelDensity
+
 
 def random_angle(n):
     return np.random.rand(n) * np.pi
@@ -76,11 +68,22 @@ def kl_divergence_from_data(
 def kl_divergence_from_data_3d(training_data: np.ndarray, learned_data: np.ndarray, number_bins=16, bin_range=[[0, 1], [0, 1], [0, 1]]):
     trained_histogram_np = np.histogramdd(training_data, bins=(number_bins, number_bins, number_bins), range=bin_range)
     learned_histogram_np = np.histogramdd(learned_data, bins=(number_bins, number_bins, number_bins), range=bin_range)
-    #trained_histogram = plt.hist2d(training_data[:, 0], training_data[:, 1], bins=(number_of_bins, number_of_bins), range=[[0, 1], [0, 1]])
-    #learned_histogram = plt.hist2d(learned_data[:, 0], learned_data[:, 1], bins=(number_of_bins, number_of_bins), range=[[0, 1], [0, 1]])
     train_probability = trained_histogram_np[0]/np.sum(trained_histogram_np[0])
     learned_probability = learned_histogram_np[0]/np.sum(learned_histogram_np[0])
     return kl_divergence(train_probability, learned_probability)
+
+
+def kl_div_kde(X, Y, bandwidth=1.0, n_mc_samples=1000):
+    # This computes the KL divergence based on Kernel Density Estimations
+    # for two distributions the given sets of samples are drawn from
+    kde_x = KernelDensity(kernel='gaussian', bandwidth=bandwidth).fit(X)
+    kde_y = KernelDensity(kernel='gaussian', bandwidth=bandwidth).fit(Y)
+
+    # Use Monte Carlo estimator of KL based on the KDEs
+    samples = kde_x.sample(n_mc_samples)
+    log_p_x = kde_x.score_samples(samples)
+    log_p_y = kde_y.score_samples(samples)
+    return np.mean(log_p_x - log_p_y)
 
 
 # Convenient plotting

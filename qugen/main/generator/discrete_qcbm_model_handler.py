@@ -1,44 +1,28 @@
-# Copyright 2023 QUTAC, BASF Digital Solutions GmbH, BMW Group, 
-# Lufthansa Industry Solutions AS GmbH, Merck KGaA (Darmstadt, Germany), 
-# Munich Re, SAP SE.
+# This file is a modification of the open‑source 'qugen' project: https://github.com/QutacQuantum/qugen
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 Anonymous contributors
+# Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-from pathlib import Path
-
-import matplotlib.pyplot as plt 
-import json
-import time
 import hashlib
+import json
 import os
-import cma
-import warnings
 import pickle
-
+import time
+import warnings
+from pathlib import Path
 from typing import Optional
 
-import numpy as np
+import cma
 import jax
 import jax.numpy as jnp
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 
-from qugen.main.generator.base_model_handler import BaseModelHandler
-from qugen.main.generator.quantum_circuits.discrete_generator_pennylane import generate_samples
 from qugen.main.data.data_handler import PITNormalizer, MinMaxNormalizer
 from qugen.main.data.helper import random_angle, kl_divergence
-
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-
+from qugen.main.generator.base_model_handler import BaseModelHandler
+from qugen.main.generator.quantum_circuits.discrete_generator_pennylane import generate_samples
 
 jax.config.update("jax_enable_x64", True)
 mpl.use("Agg")

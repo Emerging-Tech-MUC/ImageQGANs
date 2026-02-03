@@ -1,30 +1,18 @@
-# Copyright 2023 QUTAC, BASF Digital Solutions GmbH, BMW Group, 
-# Lufthansa Industry Solutions AS GmbH, Merck KGaA (Darmstadt, Germany), 
-# Munich Re, SAP SE.
+# This file is a modification of the open‑source 'qugen' project: https://github.com/QutacQuantum/qugen
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 Anonymous contributors
+# Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+import hashlib
+import json
+import os
+import time
 from pathlib import Path
 
+import cma
+import pennylane as qml
 from tqdm import tqdm
 
-import json
-import time
-import hashlib
-import os
-import cma
-
-import pennylane as qml
 # Get the current installed version of PennyLane
 pennylane_version = qml.__version__
 

@@ -1,0 +1,37 @@
+circuit_depth: 16
+circuit_type: continuous
+data_set: mnist_0_1_4x4_N_12665
+decoding_scheme: amplitude
+discriminator: digital
+discriminator_name: convolutional
+gan_method: WGAN_10
+gen_init_distr: normal
+gen_init_scale: 0.05
+gen_init_shift: 0.0
+generator_name: layered_rot_strongly_ent
+init_noise_distr: null
+init_noise_scale: null
+init_noise_shift: null
+measurement_scheme: comp_basis_probs
+model_name: continuous_mnist_0_1_4x4_N_12665_minmax_qgan_dd276b03
+n_ancilla_qubits: 0
+n_channels: 1
+n_qubits: 4
+noise_distr: normal_multi_mode
+noise_scale: 0.1
+noise_shift: !!python/tuple
+- 0
+- 1
+noise_tuning: 2
+reupload: 0
+shots: null
+training_data:
+  '0':
+    adam_b1: 0.5
+    adam_b2: 0.9
+    batch_size: 64
+    discriminator_training_steps: 10
+    initial_learning_rate_discriminator: 0.001
+    initial_learning_rate_generator: 0.01
+    n_epochs: 10000
+transformation: minmax

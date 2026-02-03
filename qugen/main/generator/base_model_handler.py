@@ -1,30 +1,21 @@
-# Copyright 2023 QUTAC, BASF Digital Solutions GmbH, BMW Group, 
-# Lufthansa Industry Solutions AS GmbH, Merck KGaA (Darmstadt, Germany), 
-# Munich Re, SAP SE.
-
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-
-#     http://www.apache.org/licenses/LICENSE-2.0
-
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# This file is a modification of the open‑source 'qugen' project: https://github.com/QutacQuantum/qugen
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2025 Anonymous contributors
+# Licensed under the Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
 
 import glob
 import os
 import re
+import shutil
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-from qugen.main.data.helper import kl_divergence_from_data
-import matplotlib.pyplot as plt
+
+from qugen.main.data.metrics_factory import metrics_factory
 
 
 class BaseModelHandler(ABC):
@@ -80,91 +71,101 @@ class BaseModelHandler(ABC):
         raise NotImplementedError
 
     def evaluate(
-        self, train_dataset_original_space: np.ndarray, number_bins=16
+        self, train_dataset_original_space: np.ndarray, metrics=None, number_bins=16, plot=False,
+            n_samples=None, n_iters_skip=0
     ) -> pd.DataFrame:
+
+
+
+        if metrics is None:
+            metrics = ["kl_div"]
+        elif isinstance(metrics, str) or isinstance(metrics, dict):
+            metrics = [metrics]
+        metrics_col_names = []
+        for m in metrics:
+            if isinstance(m, dict):
+                m = m['key']
+            if n_samples is not None and n_samples != len(train_dataset_original_space):  # not full data set
+                m_col_name = f"{m}_n{n_samples}"
+            else:
+                m_col_name = m
+            metrics_col_names.append(m_col_name)
+        # for varying number of samples used to calculate the metric, a different column is created in the df/csv
+
+        path_to_eval_csv = f"{self.path_to_models}/evaluation_summary.csv"
+        # Check if CSV exists
+        if os.path.exists(path_to_eval_csv):
+
+            # Create copy of original evaluation file (stores important results from the training process):
+            path_to_eval_csv_copy = f"{self.path_to_models}/evaluation_summary_orig_copy.csv"
+            if not os.path.exists(path_to_eval_csv_copy):
+                shutil.copyfile(path_to_eval_csv, path_to_eval_csv_copy)
+
+            df = pd.read_csv(path_to_eval_csv)
+        else:
+            # create empty CSV
+            df = pd.DataFrame({'iteration': []})
+
+        # Add columns for new metrics if they do not exist
+        df = df.reindex(
+            df.columns.union(metrics_col_names, sort=False), axis=1, fill_value=None)
+
+        # Check if any metrics left to be evaluated:
+        if not df[df['iteration'] % (n_iters_skip + 1) == 0][metrics_col_names].isnull().any(axis=None):
+            print("No new evaluations need to be performed.")
+            return df
+
         parameters_all_training_iterations = glob.glob(
             f"{self.path_to_models}/parameters_training_iteration=*"
         )
-        it_list = []
-        kl_list_transformed_space = []
-        kl_list_original_space = []
-        train_dataset_transformed_space = self.normalizer.transform(
-            train_dataset_original_space
-        )
-        dimension = train_dataset_original_space.shape[1]
+        parameters_all_training_iterations.sort(key=lambda s: (len(s), s))  # sort them by iteration
+
         progress = tqdm(range(len(parameters_all_training_iterations)))
         progress.set_description("Evaluating")
-        best_kl_original_space = np.inf
-        best_samples_original_space = None
         for it in progress:
             parameters_path = parameters_all_training_iterations[it]
             iteration = re.search(
                 "parameters_training_iteration=(.*).(pickle|npy)",
                 os.path.basename(parameters_path),
             ).group(1)
-            it_list.append(iteration)
-            self.reload(self.model_name, int(iteration))
-            synthetic_transformed_space = self.predict_transform(
-                n_samples=100000 #len(train_dataset_original_space)
-            )
-            synthetic_original_space = self.normalizer.inverse_transform(
-                synthetic_transformed_space
-            )
-            kl_transformed_space = kl_divergence_from_data(
-                train_dataset_transformed_space,
-                synthetic_transformed_space,
-                number_bins=number_bins,
-                bin_range=[[0, 1] for _ in range(dimension)],
-                dimension=dimension,
-            )
-            kl_list_transformed_space.append(kl_transformed_space)
+            iteration = int(iteration)
 
-            kl_original_space = kl_divergence_from_data(
-                train_dataset_original_space,
-                synthetic_original_space,
-                number_bins=number_bins,
-                bin_range=list(
-                    zip(
-                        train_dataset_original_space.min(axis=0),
-                        train_dataset_original_space.max(axis=0),
-                    )
-                ),
-                dimension=dimension,
-            )
-            kl_list_original_space.append(kl_original_space)
+            if iteration % (n_iters_skip + 1) != 0:
+               continue
 
-            if kl_original_space < best_kl_original_space:
-                best_kl_original_space = kl_original_space
-                best_samples_original_space = synthetic_original_space
+            if iteration not in df['iteration']:
+                df.loc[len(df)] = {k: iteration if k == 'iteration' else None for k in df.columns}
 
+            self.reload(self.model_name, iteration)
+
+            train_dataset_original_space = train_dataset_original_space[:n_samples]
+            synthetic_dataset_original_space = self.sample(n_samples=len(train_dataset_original_space))
+
+            for metric, metric_col_name in zip(metrics, metrics_col_names):
+                if not pd.isna(df[df['iteration'] == iteration][metric_col_name].item()):
+                    continue
+
+                if isinstance(metric, dict):
+                    assert 'key' in metric.keys()
+                    metric_fn = metrics_factory(**metric)
+                    metric = metric['key']
+                else:
+                    metric_fn = metrics_factory(metric)
+
+                m = metric_fn(train_dataset_original_space, synthetic_dataset_original_space)
+                iteration_idx = df[df['iteration'] == iteration].index.item()
+                df.at[iteration_idx, metric_col_name] = m
+
+            # Show latest metrics in progress bar:
+            last_iter_metrics = df[df['iteration'] == iteration].drop('iteration', axis='columns').to_dict(orient='records')[0]
             progress.set_postfix(
-                kl_original_space=kl_original_space,
-                kl_transformed_space=kl_transformed_space,
-                refresh=False,
+                refresh=True,
+                **last_iter_metrics
             )
 
-        fig = plt.figure()
-        fig.suptitle(f"{self.path_to_models}, KL={best_kl_original_space}")
-        samples_idx = np.random.choice(len(best_samples_original_space), 1000)
-        samples = best_samples_original_space[samples_idx]
-        if dimension == 2:
-            ax = fig.add_subplot()
-            ax.scatter(samples[:, 0], samples[:, 1])
-        elif dimension == 3:
-            ax = fig.add_subplot(projection='3d')
-            ax.scatter(samples[:, 0], samples[:, 1], samples[:, 2])
-            ax.view_init(elev=10., azim=20)
-        else:
-            raise ValueError
-        plt.savefig(f"{self.path_to_models}/scatterplot_best_samples_original_space.png")
-    
-        kl_results = pd.DataFrame(
-            {
-                "iteration": it_list,
-                "kl_transformed_space": np.array(kl_list_transformed_space).astype(float),
-                "kl_original_space": np.array(kl_list_original_space).astype(float),
-            }
-        )
-        kl_results = kl_results.sort_values(by=["iteration"])
-        kl_results.to_csv(f"{self.path_to_models}/kl_results.csv", index=False)
-        return kl_results
+        if plot:
+            fig = plt.figure()
+            raise NotImplementedError("Plotting evaluation results not implemented")
+
+        df.to_csv(path_to_eval_csv, index=False)
+        return df
