@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18791062.svg)](https://doi.org/10.5281/zenodo.18791062)
+
 This repository contains the supplementary codebase and data for the paper:
 
 **Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation**
