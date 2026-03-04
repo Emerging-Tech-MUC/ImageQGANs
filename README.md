@@ -1,8 +1,11 @@
+[![arXiv](https://img.shields.io/badge/arXiv-2603.00233-fb595a.svg)](https://arxiv.org/abs/2603.00233)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18791062.svg)](https://doi.org/10.5281/zenodo.18791062)
 
 This repository contains the supplementary codebase and data for the paper:
 
-**Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation**
+Jäger, Kiwit, and Riofrío, **Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation**, 2026,
+
+available as a preprint on the [arXiv](https://arxiv.org/abs/2603.00233).
 
 The quantum generative adversarial network (QGAN) implementation is built upon
 the [qugen](https://github.com/QutacQuantum/qugen) Python library. The baseline code was imported from commit `68fda95`. We thank the original authors for their open-source contributions.
