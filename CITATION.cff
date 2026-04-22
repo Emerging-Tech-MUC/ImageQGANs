@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated paper."
+title: "ImageQGANs"
+repository-code: "https://github.com/fkiwit/ImageQGANs"
+url: "https://github.com/fkiwit/ImageQGANs"
+authors:
+  - family-names: "Jäger"
+    given-names: "Jonas"
+  - family-names: "Kiwit"
+    given-names: "Florian J."
+  - family-names: "Riofrío"
+    given-names: "Carlos A."
+
+preferred-citation:
+  type: article
+  title: "Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation"
+  authors:
+    - family-names: "Jäger"
+      given-names: "Jonas"
+    - family-names: "Kiwit"
+      given-names: "Florian J."
+    - family-names: "Riofrío"
+      given-names: "Carlos A."
+  year: 2026
+  journal: "arXiv"
+  article-number: "arXiv:2603.00233"
+  url: "https://arxiv.org/abs/2603.00233"

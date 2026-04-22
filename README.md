@@ -187,3 +187,19 @@ be used to exclude certain GPUs by their ID from the training.
 #### Patch-QGAN benchmarking
 
 To run the benchmark with the Patch-QGAN framework (Tsang et al., 2023), which reproduces the models and generates samples, please refer to the Jupyter notebook ''patchQGAN_benchmark.ipynb''. This is based on the original implementation provided on [GitHub](https://github.com/jasontslxd/PQWGAN). This repository is automatically cloned when running the notebook. The model checkpoint files for the trained models reproduced for the present work are provided in ''experiments/patch_qgan_models''.
+
+# Citation
+
+If you use this repository in your research, please cite:
+
+```bibtex
+@misc{jager2026scalingquantummachinelearning,
+  title         = {Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation},
+  author        = {Jonas J{\"a}ger and Florian J. Kiwit and Carlos A. Riofr{\'i}o},
+  year          = {2026},
+  eprint        = {2603.00233},
+  archivePrefix = {arXiv},
+  primaryClass  = {quant-ph},
+  url           = {https://arxiv.org/abs/2603.00233}
+}
+```
