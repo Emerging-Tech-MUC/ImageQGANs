@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this repository, please cite the associated paper."
 title: "ImageQGANs"
-repository-code: "https://github.com/fkiwit/ImageQGANs"
-url: "https://github.com/fkiwit/ImageQGANs"
+repository-code: "https://github.com/Emerging-Tech-MUC/ImageQGANs"
+url: "https://github.com/Emerging-Tech-MUC/ImageQGANs"
 authors:
   - family-names: "Jäger"
     given-names: "Jonas"
