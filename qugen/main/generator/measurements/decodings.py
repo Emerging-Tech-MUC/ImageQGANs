@@ -93,8 +93,13 @@ def image_decoding_wrapper(image_decoding_fn: Callable, n_color_qubits: int = 0,
 
             # ➌ Rewrite helper so key is an argument
             def _add_noise(m_out, key):
+
                 p = m_out ** 2
-                sample = jax.random.multinomial(key, n=local_shots, p=p) / local_shots
+                p = p / (jnp.sum(p))
+                drawn_indices = jax.random.choice(key, a=p.shape[0], shape=(local_shots,), p=p)
+                sample = jnp.bincount(drawn_indices, length=p.shape[0]).astype(p.dtype)
+                sample = sample / local_shots
+
                 sample = sample / jnp.sum(sample)
                 noise  = jax.lax.stop_gradient(p - sample)
                 p = jnp.clip(p - noise, a_min=0) + 1e-10
