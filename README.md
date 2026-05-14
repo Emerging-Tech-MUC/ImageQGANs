@@ -3,7 +3,7 @@
 
 This repository contains the supplementary codebase and data for the paper:
 
-Jäger, Kiwit, and Riofrío, **Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation**, 2026,
+Jäger, Kiwit, and Riofrío, **Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation**, 2026,
 
 available as a preprint on the [arXiv](https://arxiv.org/abs/2603.00233).
 
@@ -75,7 +75,7 @@ below).
 
 ### Fréchet Inception Distance (FID)
 
-To run the Fréchet Inception Distance (FID) evaluation of the trained models reported in the paper, run the Jupyter notebook ''FID_evaluation.ipynb''.
+To run the Fréchet Inception Distance (FID) evaluation of the trained models reported in the paper, run the Jupyter notebook ''FID_and_MMD_evaluation.ipynb''.
 Please note that for some models, precomputed samples are used. These are created when running the Jupyter notebook ''plots_paper.ipynb'', which, hence, should be run before performing the FID evaluation. As the FIDs are evaluated with respect to the real datasets, these datasets have to be properly preprocessed and stored in ''apps/logistics/training_data'' (see section below on _Training dataset preparation_). The following datasets are used (classes for subsets are indicated in braces): MNIST, MNIST{0,1,2}, Fashion-MNIST, Fashion-MNIST{0,1}, SVHN{0}. Furthermore, to include the FID evaluation of the Patch-QGAN models (Tsang et al., 2023), please run the Jupyter notebook ''patchQGAN_benchmark.ipynb'' first to ensure that the samples are generated. 
 
 ### Maximum Mean Discrepancy (MMD)
@@ -134,6 +134,8 @@ folder before running the respective preprocessing scripts:
   files as ''fashion_mnist_train_raw.gz'' and ''fashion_mnist_train_labels_raw.gz'', respectively.
 - SVHN: Download raw data (''extra_32x32.mat'') [here](http://ufldl.stanford.edu/housenumbers/) and save the file as ''
   svhn_extra_32x32.mat''.
+
+Test data processing can be found in the ''apps/logistics/test_data'' folder. 
 
 # Miscellaneous
 
@@ -194,7 +196,7 @@ If you use this repository in your research, please cite:
 
 ```bibtex
 @misc{jager2026scalingquantummachinelearning,
-  title         = {Scaling Quantum Machine Learning without Tricks: High-Resolution and Diverse Image Generation},
+  title         = {Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation},
   author        = {Jonas J{\"a}ger and Florian J. Kiwit and Carlos A. Riofr{\'i}o},
   year          = {2026},
   eprint        = {2603.00233},
