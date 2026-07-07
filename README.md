@@ -1,3 +1,4 @@
+[![QST](https://img.shields.io/badge/Quantum%20Sci.%20Technol.-Paper-purple.svg)](https://doi.org/10.1088/2058-9565/ae7ea9)
 [![arXiv](https://img.shields.io/badge/arXiv-2603.00233-fb595a.svg)](https://arxiv.org/abs/2603.00233)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18791062.svg)](https://doi.org/10.5281/zenodo.18791062)
 
@@ -5,7 +6,7 @@ This repository contains the supplementary codebase and data for the paper:
 
 Jäger, Kiwit, and Riofrío, **Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation**, 2026,
 
-available as a preprint on the [arXiv](https://arxiv.org/abs/2603.00233).
+published in [Quantum Science and Technology](https://doi.org/10.1088/2058-9565/ae7ea9) and available on the [arXiv](https://arxiv.org/abs/2603.00233).
 
 The quantum generative adversarial network (QGAN) implementation is built upon
 the [qugen](https://github.com/QutacQuantum/qugen) Python library. The baseline code was imported from commit `68fda95`. We thank the original authors for their open-source contributions.
@@ -33,7 +34,7 @@ The repository is organized as follows:
 
 ### CUDA installation instructions
 
-In order to run the models on CUDA GPUs, a CUDA supporting JAX built must be installed.
+In order to run the models on CUDA GPUs, a CUDA supporting JAX build must be installed.
 Typically, when installing the packages as instructed above, JAX is installed with CPU support only.
 For CUDA support, perform the following steps (we recommend to create a new environment to switch between CPU and GPU
 computing)
@@ -196,12 +197,10 @@ If you use this repository in your research, please cite:
 
 ```bibtex
 @misc{jager2026scalingquantummachinelearning,
-  title         = {Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation},
-  author        = {Jonas J{\"a}ger and Florian J. Kiwit and Carlos A. Riofr{\'i}o},
-  year          = {2026},
-  eprint        = {2603.00233},
-  archivePrefix = {arXiv},
-  primaryClass  = {quant-ph},
-  url           = {https://arxiv.org/abs/2603.00233}
+    author={Jonas J{\"a}ger and Florian J. Kiwit and Carlos A. Riofr{\'i}o},
+    title={Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation},
+    journal={Quantum Science and Technology},
+    url={http://iopscience.iop.org/article/10.1088/2058-9565/ae7ea9},
+    year={2026}
 }
 ```
