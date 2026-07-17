@@ -3,6 +3,7 @@ message: "If you use this repository, please cite the associated paper."
 title: "ImageQGANs"
 repository-code: "https://github.com/Emerging-Tech-MUC/ImageQGANs"
 url: "https://github.com/Emerging-Tech-MUC/ImageQGANs"
+license: "Apache-2.0"
 authors:
   - family-names: "Jäger"
     given-names: "Jonas"
@@ -10,10 +11,9 @@ authors:
     given-names: "Florian J."
   - family-names: "Riofrío"
     given-names: "Carlos A."
-
 preferred-citation:
   type: article
-  title: "Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation"
+  title: "Scaling quantum machine learning without tricks: full-resolution and diverse image generation"
   authors:
     - family-names: "Jäger"
       given-names: "Jonas"
@@ -21,7 +21,13 @@ preferred-citation:
       given-names: "Florian J."
     - family-names: "Riofrío"
       given-names: "Carlos A."
-  year: 2026
   journal: "Quantum Science and Technology"
+  publisher:
+    name: "IOP Publishing"
+  volume: 11
+  issue: 3
+  start: "035042"
+  year: 2026
+  month: 7
   doi: "10.1088/2058-9565/ae7ea9"
   url: "https://doi.org/10.1088/2058-9565/ae7ea9"
