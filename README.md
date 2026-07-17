@@ -1,12 +1,12 @@
 [![QST](https://img.shields.io/badge/Quantum%20Sci.%20Technol.-Paper-purple.svg)](https://doi.org/10.1088/2058-9565/ae7ea9)
 [![arXiv](https://img.shields.io/badge/arXiv-2603.00233-fb595a.svg)](https://arxiv.org/abs/2603.00233)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18791062.svg)](https://doi.org/10.5281/zenodo.18791062)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18791061.svg)](https://doi.org/10.5281/zenodo.18791061)
 
 This repository contains the supplementary codebase and data for the paper:
 
 Jäger, Kiwit, and Riofrío, **Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation**, 2026,
 
-published in [Quantum Science and Technology](https://doi.org/10.1088/2058-9565/ae7ea9) and available on the [arXiv](https://arxiv.org/abs/2603.00233).
+published in [Quantum Science and Technology 11 (3), 035042](https://doi.org/10.1088/2058-9565/ae7ea9) and available on the [arXiv](https://arxiv.org/abs/2603.00233).
 
 The quantum generative adversarial network (QGAN) implementation is built upon
 the [qugen](https://github.com/QutacQuantum/qugen) Python library. The baseline code was imported from commit `68fda95`. We thank the original authors for their open-source contributions.
@@ -196,11 +196,17 @@ To run the benchmark with the Patch-QGAN framework (Tsang et al., 2023), which r
 If you use this repository in your research, please cite:
 
 ```bibtex
-@misc{jager2026scalingquantummachinelearning,
+@article{jaeger2026scalingquantummachinelearning,
     author={Jonas J{\"a}ger and Florian J. Kiwit and Carlos A. Riofr{\'i}o},
-    title={Scaling Quantum Machine Learning without Tricks: Full-Resolution and Diverse Image Generation},
+    title={Scaling quantum machine learning without tricks: full-resolution and diverse image generation},
     journal={Quantum Science and Technology},
-    url={http://iopscience.iop.org/article/10.1088/2058-9565/ae7ea9},
-    year={2026}
+    doi = {10.1088/2058-9565/ae7ea9},
+    url = {https://doi.org/10.1088/2058-9565/ae7ea9},
+    year = {2026},
+    month = {jul},
+    publisher = {IOP Publishing},
+    volume = {11},
+    number = {3},
+    pages = {035042},
 }
 ```
